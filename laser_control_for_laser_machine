@@ -1,0 +1,86 @@
+#include <string.h>
+// Define a string variable to compare with
+void setup() {
+  // Initialize the serial communication at 9600 baud
+  Serial.begin(115200);
+  pinMode(13, OUTPUT);
+  pinMode(12, OUTPUT);
+  pinMode(11, OUTPUT);
+  pinMode(10, OUTPUT);
+  pinMode(9, OUTPUT);
+  pinMode(8, OUTPUT);
+  pinMode(7, OUTPUT);
+  pinMode(6, OUTPUT);
+  pinMode(5, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(3, OUTPUT);
+   pinMode(2, OUTPUT);
+}
+
+void loop() {
+  // Check if there is incoming data from the serial port
+  if (Serial.available() > 0) {
+    // Read the incoming data as a string
+    String incoming_data = Serial.readStringUntil('\n');
+    
+    // Print the incoming data to the serial monitor
+    Serial.print("Received data: ");
+    Serial.println(incoming_data);
+    //control red light
+    // Get the character at position 3 (the fourth character) in the string
+  char redlight = incoming_data.charAt(0);
+  if (redlight == '1'){digitalWrite(13, HIGH);Serial.println(redlight);}
+  else{digitalWrite(13, LOW);}
+  //control energy
+  char pin2 = incoming_data.charAt(1);
+  if (pin2 == '1'){digitalWrite(2, HIGH);Serial.println(pin2);}
+  else{digitalWrite(2, LOW);}
+    char pin3 = incoming_data.charAt(2);
+  if (pin3 == '1'){digitalWrite(3, HIGH);Serial.println(pin3);}
+  else{digitalWrite(3, LOW);}
+      char pin4 = incoming_data.charAt(3);
+  if (pin4 == '1'){digitalWrite(4, HIGH);Serial.println(pin4);}
+  else{digitalWrite(4, LOW);}
+  char pin5 = incoming_data.charAt(4);
+  if (pin5 == '1'){digitalWrite(5, HIGH);Serial.println(pin5);}
+  else{digitalWrite(4, LOW);}
+   char pin6 = incoming_data.charAt(5);
+  if (pin6 == '1'){digitalWrite(6, HIGH);Serial.println(pin6);}
+  else{digitalWrite(6, LOW);}
+  char pin7 = incoming_data.charAt(6);
+  if (pin7 == '1'){digitalWrite(7, HIGH);Serial.println(pin7);}
+  else{digitalWrite(7, LOW);}
+  char pin8 = incoming_data.charAt(7);
+  if (pin8 == '1'){digitalWrite(8, HIGH);Serial.println(pin8);}
+  else{digitalWrite(8, LOW);}
+  char pin9 = incoming_data.charAt(8);
+  if (pin9 == '1'){digitalWrite(9, HIGH);Serial.println(pin9);}
+  else{digitalWrite(9, LOW);}
+  //set frequency
+  char frequencycf = incoming_data.charAt(9);
+  if (frequencycf == '1'){
+    int b= incoming_data.charAt(10)-'0';//十位
+    int c= incoming_data.charAt(11)-'0';//个位
+    int d = b*10+c;
+    //todo 
+    Serial.println(d);
+    while (true){digitalWrite(10, HIGH);delayMicroseconds (d);
+    digitalWrite(10, LOW);delayMicroseconds (d);
+     if (Serial.available() > 0){
+      incoming_data = Serial.readStringUntil('\n');
+      frequencycf = incoming_data.charAt(9);
+      if (frequencycf == '0'){Serial.println("stopped");break;}
+      }
+    }
+    }
+  else{digitalWrite(10, LOW);}
+
+  
+  
+   //Serial.println(redlight);
+ 
+    //if (strcmp(incoming_data.c_str(),openred.c_str())==0){digitalWrite(13, HIGH); }
+   // else if(strcmp(incoming_data.c_str(),closered.c_str())==0){digitalWrite(13, LOW);}
+  }
+ 
+}
