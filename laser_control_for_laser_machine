@@ -4,7 +4,7 @@ void setup() {
   // Initialize the serial communication at 9600 baud
   Serial.begin(115200);
   pinMode(13, OUTPUT);
-  pinMode(12, OUTPUT);
+  pinMode(12, OUTPUT);//出激光使能
   pinMode(11, OUTPUT);
   pinMode(10, OUTPUT);
   pinMode(9, OUTPUT);
@@ -18,6 +18,7 @@ void setup() {
 }
 
 void loop() {
+  digitalWrite(11, HIGH);//预出光信号保持高电平
   // Check if there is incoming data from the serial port
   if (Serial.available() > 0) {
     // Read the incoming data as a string
@@ -69,7 +70,12 @@ void loop() {
      if (Serial.available() > 0){
       incoming_data = Serial.readStringUntil('\n');
       frequencycf = incoming_data.charAt(9);
-      if (frequencycf == '0'){Serial.println("stopped");break;}
+      char ena_laser = incoming_data.charAt(12);
+      if (frequencycf == '0'){Serial.println("stopped pwm");
+      digitalWrite(12, LOW);Serial.println("stopped laser");
+      break;}
+      if( ena_laser == '1'){digitalWrite(12, HIGH);Serial.println("start laser");}
+      else{digitalWrite(12, LOW);Serial.println("stopped laser");}
       }
     }
     }
