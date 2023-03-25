@@ -5,8 +5,8 @@ void setup() {
   Serial.begin(115200);
   pinMode(13, OUTPUT);
   pinMode(12, OUTPUT);//出激光使能
-  pinMode(11, OUTPUT);
-  pinMode(10, OUTPUT);
+  pinMode(11, OUTPUT);//预出光信号
+  pinMode(10, OUTPUT);//频率信号
   pinMode(9, OUTPUT);
   pinMode(8, OUTPUT);
   pinMode(7, OUTPUT);
@@ -28,7 +28,7 @@ void loop() {
     Serial.print("Received data: ");
     Serial.println(incoming_data);
     //control red light
-    // Get the character at position 3 (the fourth character) in the string
+    // Get the character at position 0 (the first character) in the string
   char redlight = incoming_data.charAt(0);
   if (redlight == '1'){digitalWrite(13, HIGH);Serial.println(redlight);}
   else{digitalWrite(13, LOW);}
@@ -63,7 +63,7 @@ void loop() {
     int b= incoming_data.charAt(10)-'0';//十位
     int c= incoming_data.charAt(11)-'0';//个位
     int d = b*10+c;
-    //todo 
+
     Serial.println(d);
     while (true){digitalWrite(10, HIGH);delayMicroseconds (d);
     digitalWrite(10, LOW);delayMicroseconds (d);
@@ -81,12 +81,5 @@ void loop() {
     }
   else{digitalWrite(10, LOW);}
 
-  
-  
-   //Serial.println(redlight);
- 
-    //if (strcmp(incoming_data.c_str(),openred.c_str())==0){digitalWrite(13, HIGH); }
-   // else if(strcmp(incoming_data.c_str(),closered.c_str())==0){digitalWrite(13, LOW);}
-  }
  
 }
